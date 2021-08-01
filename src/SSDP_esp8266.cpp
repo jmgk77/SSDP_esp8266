@@ -515,4 +515,4 @@ void SSDP_esp8266Class::setTTL(const uint8_t ttl)
 	m_ttl = ttl;
 }
 
-SSDP_esp8266Class SSDPDevice;
+SSDP_esp8266Class SSDP_esp8266;
