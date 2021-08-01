@@ -3,15 +3,9 @@
 // https://github.com/esp8266/Arduino/files/980894/SSDPDevice.zip
 // by Pawel Dino
 
-#ifdef ESP8266
 #include <ESP8266WiFi.h>
+#include <ESP8266WebServer.h>
 #include <WiFiUdp.h>
-#endif
-
-#ifdef ESP32
-#include <WiFi.h>
-#include <WiFiUdp.h>
-#endif
 
 #include "SSDP_esp8266.h"
 

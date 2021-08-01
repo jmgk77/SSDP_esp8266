@@ -6,6 +6,8 @@
 #ifndef _SSDP_ESP8266_h
 #define _SSDP_ESP8266_h
 
+#include <Arduino.h>
+
 #ifdef ESP8266
 #include <ESP8266WiFi.h>
 #include <WiFiUdp.h>
