@@ -74,8 +74,8 @@ static const char *PROGMEM SSDP_SCHEMA_TEMPLATE =
 	"\r\n";
 
 SSDP_esp8266Class::SSDP_esp8266Class() : m_server(0),
-									 m_port(80),
-									 m_ttl(SSDP_MULTICAST_TTL)
+										 m_port(80),
+										 m_ttl(SSDP_MULTICAST_TTL)
 {
 	m_uuid[0] = '\0';
 	m_modelNumber[0] = '\0';

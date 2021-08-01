@@ -3,8 +3,8 @@
 // https://github.com/esp8266/Arduino/files/980894/SSDPDevice.zip
 // by Pawel Dino
 
-#ifndef _SSDPDEVICE_h
-#define _SSDPDEVICE_h
+#ifndef _SSDP_ESP8266_h
+#define _SSDP_ESP8266_h
 
 #ifdef ESP8266
 #include <ESP8266WiFi.h>
