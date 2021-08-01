@@ -1,4 +1,4 @@
-// SSDPDevice.h
+// SSDP_esp8266.h
 // based on https://github.com/esp8266/Arduino/issues/2283
 // https://github.com/esp8266/Arduino/files/980894/SSDPDevice.zip
 // by Pawel Dino
@@ -74,7 +74,7 @@ typedef struct
 	uint16_t port;
 } ssdp_send_parameters_t;
 
-class SSDPDeviceClass
+class SSDP_esp8266Class
 {
 private:
 	WiFiUDP *m_server;
@@ -111,7 +111,7 @@ protected:
 	void send(ssdp_send_parameters_t *parameters);
 
 public:
-	SSDPDeviceClass();
+	SSDP_esp8266Class();
 
 	void update();
 
@@ -144,6 +144,6 @@ public:
 	void setTTL(uint8_t ttl);
 };
 
-extern SSDPDeviceClass SSDPDevice;
+extern SSDP_esp8266Class SSDP_esp8266;
 
 #endif

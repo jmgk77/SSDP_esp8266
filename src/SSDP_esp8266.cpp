@@ -1,8 +1,9 @@
+// SSDP_esp8266.h
 // based on https://github.com/esp8266/Arduino/issues/2283
 // https://github.com/esp8266/Arduino/files/980894/SSDPDevice.zip
 // by Pawel Dino
 
-#include "SSDPDevice.h"
+#include "SSDP_esp8266.h"
 #include "lwip/igmp.h"
 
 static const char *PROGMEM SSDP_RESPONSE_TEMPLATE =
@@ -72,7 +73,7 @@ static const char *PROGMEM SSDP_SCHEMA_TEMPLATE =
 	"</root>\r\n"
 	"\r\n";
 
-SSDPDeviceClass::SSDPDeviceClass() : m_server(0),
+SSDP_esp8266Class::SSDP_esp8266Class() : m_server(0),
 									 m_port(80),
 									 m_ttl(SSDP_MULTICAST_TTL)
 {
@@ -106,12 +107,12 @@ SSDPDeviceClass::SSDPDeviceClass() : m_server(0),
 	}
 }
 
-void SSDPDeviceClass::update()
+void SSDP_esp8266Class::update()
 {
 	postNotifyUpdate();
 }
 
-bool SSDPDeviceClass::readLine(String &value)
+bool SSDP_esp8266Class::readLine(String &value)
 {
 	char buffer[65];
 	int bufferPos = 0;
@@ -145,7 +146,7 @@ bool SSDPDeviceClass::readLine(String &value)
 	return bufferPos > 0;
 }
 
-bool SSDPDeviceClass::readKeyValue(String &key, String &value)
+bool SSDP_esp8266Class::readKeyValue(String &key, String &value)
 {
 	char buffer[65];
 	int bufferPos = 0;
@@ -199,7 +200,7 @@ bool SSDPDeviceClass::readKeyValue(String &key, String &value)
 	return true;
 }
 
-void SSDPDeviceClass::postNotifyALive()
+void SSDP_esp8266Class::postNotifyALive()
 {
 	unsigned long time = millis();
 
@@ -216,7 +217,7 @@ void SSDPDeviceClass::postNotifyALive()
 	post(NOTIFY_ALIVE, ROOT_BY_TYPE, SSDP_MULTICAST_ADDR, SSDP_PORT, time + 680);
 }
 
-void SSDPDeviceClass::postNotifyUpdate()
+void SSDP_esp8266Class::postNotifyUpdate()
 {
 	unsigned long time = millis();
 
@@ -225,7 +226,7 @@ void SSDPDeviceClass::postNotifyUpdate()
 	post(NOTIFY_UPDATE, ROOT_BY_TYPE, SSDP_MULTICAST_ADDR, SSDP_PORT, time + 80);
 }
 
-void SSDPDeviceClass::postResponse(long mx)
+void SSDP_esp8266Class::postResponse(long mx)
 {
 	unsigned long time = millis();
 	unsigned long delay = random(0, mx) * 900L; // 1000 ms - 100 ms
@@ -238,12 +239,12 @@ void SSDPDeviceClass::postResponse(long mx)
 	post(RESPONSE, ROOT_BY_TYPE, address, port, time + delay);
 }
 
-void SSDPDeviceClass::postResponse(ssdp_udn_t udn, long mx)
+void SSDP_esp8266Class::postResponse(ssdp_udn_t udn, long mx)
 {
 	post(RESPONSE, udn, m_server->remoteIP(), m_server->remotePort(), millis() + random(0, mx) * 900L); // 1000 ms - 100 ms
 }
 
-void SSDPDeviceClass::post(ssdp_message_t type, ssdp_udn_t udn, IPAddress address, uint16_t port, unsigned long time)
+void SSDP_esp8266Class::post(ssdp_message_t type, ssdp_udn_t udn, IPAddress address, uint16_t port, unsigned long time)
 {
 	for (int i = 0; i < SSDP_QUEUE_SIZE; i++)
 	{
@@ -260,7 +261,7 @@ void SSDPDeviceClass::post(ssdp_message_t type, ssdp_udn_t udn, IPAddress addres
 	}
 }
 
-void SSDPDeviceClass::send(ssdp_send_parameters_t *parameters)
+void SSDP_esp8266Class::send(ssdp_send_parameters_t *parameters)
 {
 	uint8_t buffer[1460];
 	unsigned int ip = WiFi.localIP();
@@ -332,7 +333,7 @@ void SSDPDeviceClass::send(ssdp_send_parameters_t *parameters)
 	parameters->time = parameters->type == NOTIFY_ALIVE ? parameters->time + SSDP_INTERVAL * 900L : 0; // 1000 ms - 100 ms
 }
 
-void SSDPDeviceClass::schema(WiFiClient client)
+void SSDP_esp8266Class::schema(WiFiClient client)
 {
 	uint32_t ip = WiFi.localIP();
 	client.printf(SSDP_SCHEMA_TEMPLATE,
@@ -349,7 +350,7 @@ void SSDPDeviceClass::schema(WiFiClient client)
 				  m_uuid);
 }
 
-void SSDPDeviceClass::handleClient()
+void SSDP_esp8266Class::handleClient()
 {
 	IPAddress current = WiFi.localIP();
 
@@ -449,69 +450,69 @@ void SSDPDeviceClass::handleClient()
 	}
 }
 
-void SSDPDeviceClass::setSchemaURL(const char *url)
+void SSDP_esp8266Class::setSchemaURL(const char *url)
 {
 	strlcpy(m_schemaURL, url, sizeof(m_schemaURL));
 }
 
-void SSDPDeviceClass::setHTTPPort(uint16_t port)
+void SSDP_esp8266Class::setHTTPPort(uint16_t port)
 {
 	m_port = port;
 }
 
-void SSDPDeviceClass::setDeviceType(const char *deviceType)
+void SSDP_esp8266Class::setDeviceType(const char *deviceType)
 {
 	strlcpy(m_deviceType, deviceType, sizeof(m_deviceType));
 }
 
-void SSDPDeviceClass::setName(const char *name)
+void SSDP_esp8266Class::setName(const char *name)
 {
 	strlcpy(m_friendlyName, name, sizeof(m_friendlyName));
 }
 
-void SSDPDeviceClass::setURL(const char *url)
+void SSDP_esp8266Class::setURL(const char *url)
 {
 	strlcpy(m_presentationURL, url, sizeof(m_presentationURL));
 }
 
-void SSDPDeviceClass::setSerialNumber(const char *serialNumber)
+void SSDP_esp8266Class::setSerialNumber(const char *serialNumber)
 {
 	strlcpy(m_serialNumber, serialNumber, sizeof(m_serialNumber));
 }
 
-void SSDPDeviceClass::setSerialNumber(const uint32_t serialNumber)
+void SSDP_esp8266Class::setSerialNumber(const uint32_t serialNumber)
 {
 	snprintf(m_serialNumber, sizeof(uint32_t) * 2 + 1, "%08X", serialNumber);
 }
 
-void SSDPDeviceClass::setModelName(const char *name)
+void SSDP_esp8266Class::setModelName(const char *name)
 {
 	strlcpy(m_modelName, name, sizeof(m_modelName));
 }
 
-void SSDPDeviceClass::setModelNumber(const char *num)
+void SSDP_esp8266Class::setModelNumber(const char *num)
 {
 	strlcpy(m_modelNumber, num, sizeof(m_modelNumber));
 }
 
-void SSDPDeviceClass::setModelURL(const char *url)
+void SSDP_esp8266Class::setModelURL(const char *url)
 {
 	strlcpy(m_modelURL, url, sizeof(m_modelURL));
 }
 
-void SSDPDeviceClass::setManufacturer(const char *name)
+void SSDP_esp8266Class::setManufacturer(const char *name)
 {
 	strlcpy(m_manufacturer, name, sizeof(m_manufacturer));
 }
 
-void SSDPDeviceClass::setManufacturerURL(const char *url)
+void SSDP_esp8266Class::setManufacturerURL(const char *url)
 {
 	strlcpy(m_manufacturerURL, url, sizeof(m_manufacturerURL));
 }
 
-void SSDPDeviceClass::setTTL(const uint8_t ttl)
+void SSDP_esp8266Class::setTTL(const uint8_t ttl)
 {
 	m_ttl = ttl;
 }
 
-SSDPDeviceClass SSDPDevice;
+SSDP_esp8266Class SSDPDevice;

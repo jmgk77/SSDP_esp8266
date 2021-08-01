@@ -1,0 +1,54 @@
+#######################################
+# Datatypes & Classes (KEYWORD1)
+#######################################
+
+SSDP_esp8266Class	KEYWORD1
+ssdp_message_t	KEYWORD1
+ssdp_send_parameters_t	KEYWORD1
+ssdp_udn_t	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+handleClient	KEYWORD2
+post	KEYWORD2
+postNotifyALive	KEYWORD2
+postNotifyUpdate	KEYWORD2
+postResponse	KEYWORD2
+readKeyValue	KEYWORD2
+readLine	KEYWORD2
+schema	KEYWORD2
+send	KEYWORD2
+setDeviceType	KEYWORD2
+setHTTPPort	KEYWORD2
+setManufacturer	KEYWORD2
+setManufacturerURL	KEYWORD2
+setModelName	KEYWORD2
+setModelNumber	KEYWORD2
+setModelURL	KEYWORD2
+setName	KEYWORD2
+setSchemaURL	KEYWORD2
+setSerialNumber	KEYWORD2
+setTTL	KEYWORD2
+setURL	KEYWORD2
+update	KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
+SSDP_DEVICE_TYPE_SIZE	LITERAL1
+SSDP_FRIENDLY_NAME_SIZE	LITERAL1
+SSDP_MANUFACTURER_SIZE	LITERAL1
+SSDP_MANUFACTURER_URL_SIZE	LITERAL1
+SSDP_MODEL_NAME_SIZE	LITERAL1
+SSDP_MODEL_URL_SIZE	LITERAL1
+SSDP_MODEL_VERSION_SIZE	LITERAL1
+SSDP_MULTICAST_TTL	LITERAL1
+SSDP_PORT	LITERAL1
+SSDP_PRESENTATION_URL_SIZE	LITERAL1
+SSDP_QUEUE_SIZE	LITERAL1
+SSDP_SCHEMA_URL_SIZE	LITERAL1
+SSDP_SERIAL_NUMBER_SIZE	LITERAL1
+SSDP_UUID_SIZE	LITERAL1
