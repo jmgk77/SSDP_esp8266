@@ -118,6 +118,7 @@ public:
 	void update();
 
 	void schema(WiFiClient client);
+	String schema();
 
 	void handleClient();
 

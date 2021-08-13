@@ -350,6 +350,28 @@ void SSDP_esp8266Class::schema(WiFiClient client)
 				  m_uuid);
 }
 
+String SSDP_esp8266Class::schema()
+{
+	uint32_t ip = WiFi.localIP();
+	char buf[sizeof(SSDP_SCHEMA_TEMPLATE) + sizeof(m_port) + sizeof(m_schemaURL) + sizeof(m_deviceType) +
+			 sizeof(m_friendlyName) + sizeof(m_presentationURL) + sizeof(m_serialNumber) + sizeof(m_modelName) +
+			 sizeof(m_modelNumber) + sizeof(m_modelURL) + sizeof(m_manufacturer) + sizeof(m_manufacturerURL) +
+			 sizeof(m_uuid) + 256];
+	sprintf(buf, SSDP_SCHEMA_TEMPLATE,
+			LIP2STR(&ip), m_port, m_schemaURL,
+			m_deviceType,
+			m_friendlyName,
+			m_presentationURL,
+			m_serialNumber,
+			m_modelName,
+			m_modelNumber,
+			m_modelURL,
+			m_manufacturer,
+			m_manufacturerURL,
+			m_uuid);
+	return String(buf);
+}
+
 void SSDP_esp8266Class::handleClient()
 {
 	IPAddress current = WiFi.localIP();
