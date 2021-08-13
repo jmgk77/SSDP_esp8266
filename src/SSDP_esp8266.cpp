@@ -350,26 +350,88 @@ void SSDP_esp8266Class::schema(WiFiClient client)
 				  m_uuid);
 }
 
-String SSDP_esp8266Class::schema()
-{
-	uint32_t ip = WiFi.localIP();
-	char buf[sizeof(SSDP_SCHEMA_TEMPLATE) + sizeof(m_port) + sizeof(m_schemaURL) + sizeof(m_deviceType) +
-			 sizeof(m_friendlyName) + sizeof(m_presentationURL) + sizeof(m_serialNumber) + sizeof(m_modelName) +
-			 sizeof(m_modelNumber) + sizeof(m_modelURL) + sizeof(m_manufacturer) + sizeof(m_manufacturerURL) +
-			 sizeof(m_uuid) + 256];
-	sprintf(buf, SSDP_SCHEMA_TEMPLATE,
-			LIP2STR(&ip), m_port, m_schemaURL,
-			m_deviceType,
-			m_friendlyName,
-			m_presentationURL,
-			m_serialNumber,
-			m_modelName,
-			m_modelNumber,
-			m_modelURL,
-			m_manufacturer,
-			m_manufacturerURL,
-			m_uuid);
-	return String(buf);
+// String SSDP_esp8266Class::schema()
+// {
+// 	uint32_t ip = WiFi.localIP();
+// 	char buf[sizeof(SSDP_SCHEMA_TEMPLATE) + sizeof(m_port) + sizeof(m_schemaURL) + sizeof(m_deviceType) +
+// 			 sizeof(m_friendlyName) + sizeof(m_presentationURL) + sizeof(m_serialNumber) + sizeof(m_modelName) +
+// 			 sizeof(m_modelNumber) + sizeof(m_modelURL) + sizeof(m_manufacturer) + sizeof(m_manufacturerURL) +
+// 			 sizeof(m_uuid) + 256];
+// 	sprintf(buf, SSDP_SCHEMA_TEMPLATE,
+// 			LIP2STR(&ip), m_port, m_schemaURL,
+// 			m_deviceType,
+// 			m_friendlyName,
+// 			m_presentationURL,
+// 			m_serialNumber,
+// 			m_modelName,
+// 			m_modelNumber,
+// 			m_modelURL,
+// 			m_manufacturer,
+// 			m_manufacturerURL,
+// 			m_uuid);
+// 	return String(buf);
+// }
+
+String SSDP_esp8266Class::schema(void) {
+	String s = "";
+    s +="<?xml version=\"1.0\"?>\n";
+    s +="<root xmlns=\"urn:schemas-upnp-org:device-1-0\">\n";
+    s +="\t<specVersion>\n";
+    s +="\t\t<major>1</major>\n";
+    s +="\t\t<minor>0</minor>\n";
+    s +="\t</specVersion>\n";
+
+    s +="\t<device>\n";
+    s +="\t\t<deviceType>urn:schemas-upnp-org:device:Basic:1</deviceType>\n";
+
+    if (strlen(_device->presentationURL())) {
+        s +="\t<presentationURL>";
+        s +=_device->presentationURL();
+        s +="</presentationURL>\r\n";
+    }
+
+    s +="\t\t<friendlyName>";
+    s +=_device->friendlyName();
+    s +="</friendlyName>\r\n";
+
+    s +="\t\t<modelName>";
+    s +=_device->modelName();
+    s +="</modelName>\r\n";
+
+    version_t *modelNumber = _device->modelNumber();
+
+    if (modelNumber->major > 0 || modelNumber->minor > 0) {
+        s +="\t\t<modelNumber>";
+        s +=modelNumber->major;
+        s +=".";
+        s +=modelNumber->minor;
+        s +="</modelNumber>\r\n";
+    }
+
+    if (strlen(_device->serialNumber())) {
+        s +="\t\t<serialNumber>";
+        s +=_device->serialNumber();
+        s +="</serialNumber>\r\n";
+    }
+
+    s +="\t\t<manufacturer>";
+    s +=_device->manufacturer();
+    s +="</manufacturer>\r\n";
+
+    if (strlen(_device->manufacturerURL())) {
+        s +="\t\t<manufacturerURL>";
+        s +=_device->manufacturerURL();
+        s +="</manufacturerURL>\r\n";
+    }
+
+    s +="\t\t<UDN>uuid:";
+    s +=_device->uuid();
+    s +="</UDN>\r\n";
+
+    s +="\t</device>\n";
+    s +="</root>\n";
+    //client.stop();
+	return s;
 }
 
 void SSDP_esp8266Class::handleClient()
